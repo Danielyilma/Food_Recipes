@@ -5,10 +5,9 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: foodrecipe_user       # Custom username
-      POSTGRES_PASSWORD: foodrecipe_pass  # Custom password
+      POSTGRES_USER: foodrecipe_user
+      POSTGRES_PASSWORD: foodrecipe_pass
       POSTGRES_DB: foodrecipe_db
-      # POSTGRES_PASSWORD: postgrespassword
   graphql-engine:
     image: hasura/graphql-engine:v2.42.0
     ports:
