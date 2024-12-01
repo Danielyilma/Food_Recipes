@@ -116,6 +116,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: "authentication",
+});
 const categories = [
   {
     id: 1,

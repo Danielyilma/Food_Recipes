@@ -33,14 +33,26 @@
             </NuxtLink>
             <ThemeToggle />
             <NuxtLink
+              v-if="!userStore.isAuthenticated()"
               to="/login"
               class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
             >
               Login
             </NuxtLink>
+            <button @click="signout" v-if="userStore.isAuthenticated()">
+              Logout
+            </button>
           </div>
         </div>
       </div>
     </nav>
   </header>
 </template>
+<script setup>
+const userStore = useUserStore();
+
+const signout = () => {
+  userStore.logout();
+  useRouter().go(0);
+};
+</script>

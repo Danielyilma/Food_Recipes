@@ -55,6 +55,7 @@
         </div>
 
         <button
+          @click.prevent="signin"
           type="submit"
           class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
         >
@@ -82,9 +83,20 @@
 
 <script setup>
 import FormInput from "~/components/ui/FormInput.vue";
-// const { email, password, rememberMe, handleLogin } = useAuth();
-// const email = ;
+
+const userStore = useUserStore();
+
+const email = ref("");
+const password = ref("");
+
+const signin = async () => {
+  await userStore.login({ email: email.value, password: password.value });
+  email.value = password.value = "";
+  return await navigateTo("/", { replace: true });
+};
+
 definePageMeta({
   layout: "empty",
+  middleware: "authentication",
 });
 </script>

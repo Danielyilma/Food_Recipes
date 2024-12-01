@@ -31,7 +31,7 @@
 
           <FormInput
             id="phone_number"
-            label="phone_number"
+            label="Phone number"
             type="text"
             v-model="phone_number"
             placeholder="Your phone number"
@@ -112,6 +112,7 @@
 import FormInput from "~/components/ui/FormInput.vue";
 definePageMeta({
   layout: "empty",
+  middleware: "authentication",
 });
 // const {
 //   username,

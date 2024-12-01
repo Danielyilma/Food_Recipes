@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/apollo",
     "@nuxtjs/tailwindcss",
-    // "@pinia/nuxt",
+    "@pinia/nuxt",
     "@nuxtjs/color-mode",
   ],
   colorMode: {
@@ -21,11 +21,19 @@ export default defineNuxtConfig({
     fallback: "light",
   },
   apollo: {
+    authType: "Bearer",
+    authHeader: "Authorization",
     clients: {
       default: {
-        httpEndpoint: "https://spacex-production.up.railway.app",
+        httpEndpoint: process.env.GRAPHQL_API || "",
       },
     },
+  },
+  pinia: {
+    storesDirs: ["./stores/**", "./custom-folder/stores/**"],
+  },
+  build: {
+    transpile: ["pinia-plugin-persistedstate"],
   },
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
