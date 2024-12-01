@@ -1,6 +1,38 @@
-actions: []
+actions:
+  - name: login
+    definition:
+      kind: synchronous
+      handler: http://172.29.246.217:8090/login
+      request_transform:
+        body:
+          action: transform
+          template: '{{$body.input.arg}}'
+        method: POST
+        query_params: {}
+        template_engine: Kriti
+        version: 2
+    permissions:
+      - role: public
+  - name: signup
+    definition:
+      kind: synchronous
+      handler: http://172.29.246.217:8090/signup
+      request_transform:
+        body:
+          action: transform
+          template: '{{$body.input.arg1}}'
+        method: POST
+        query_params: {}
+        template_engine: Kriti
+        version: 2
+    permissions:
+      - role: user
 custom_types:
   enums: []
-  input_objects: []
-  objects: []
+  input_objects:
+    - name: LoginInput
+    - name: SignupInput
+  objects:
+    - name: TokenReturn
+    - name: SignupOutput
   scalars: []

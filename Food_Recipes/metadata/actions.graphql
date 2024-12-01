@@ -1,0 +1,32 @@
+type Mutation {
+  login(
+    arg: LoginInput
+  ): TokenReturn
+}
+
+type Mutation {
+  signup(
+    arg1: SignupInput!
+  ): TokenReturn
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input SignupInput {
+  email: String!
+  username: String!
+  password: String!
+  phone_number: String!
+}
+
+type TokenReturn {
+  token: String!
+}
+
+type SignupOutput {
+  accessToken: String!
+}
+

@@ -1,3 +1,17 @@
 table:
   name: users
   schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - email
+        - password
+        - phone_number
+        - profile_image
+        - username
+        - created_at
+        - updated_at
+      filter: {}
+    comment: ""
