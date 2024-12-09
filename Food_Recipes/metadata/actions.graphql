@@ -1,4 +1,10 @@
 type Mutation {
+  fileUpload(
+    input: CreateRecipeInput
+  ): CreateRecipeOutput
+}
+
+type Mutation {
   login(
     arg: LoginInput
   ): TokenReturn
@@ -22,11 +28,69 @@ input SignupInput {
   phone_number: String!
 }
 
+input CreateRecipeInput {
+  title: String!
+  description: String
+  prep_time: Int!
+  thumbnail: String!
+  is_paid: Boolean!
+  price: Float!
+  user_id: Int!
+  category_id: Int!
+  ingredients: [IngredientInput!]!
+  steps: [StepInput!]!
+  images: [ImageInput!]!
+}
+
+input IngredientInput {
+  name: String!
+  description: String!
+}
+
+input StepInput {
+  step_number: Int!
+  instruction: String!
+  recipe_images: RecipeImageInput!
+}
+
+input ImageInput {
+  image_url: String!
+}
+
+input RecipeInput {
+  Id: Int
+  Title: String!
+  Description: String!
+  Prep_time: Int!
+  Thumbnail: String!
+  Is_paid: Boolean!
+  Price: Float!
+  User_id: Int!
+  Category_id: Int!
+  recipe_ingredients: [RecipeIngredientInput!]!
+  steps: [StepInput!]!
+  recipe_images: [RecipeImageInput!]!
+}
+
+input RecipeImageInput {
+  image_url: String!
+}
+
+input RecipeIngredientInput {
+  ingredient: IngredientInput!
+  quantity: String!
+}
+
 type TokenReturn {
   token: String!
 }
 
 type SignupOutput {
   accessToken: String!
+}
+
+type CreateRecipeOutput {
+  id: String
+  title: String
 }
 

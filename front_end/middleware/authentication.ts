@@ -7,7 +7,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     return await navigateTo("/");
   }
 
-  if (!userStore.isAuthenticated() && to.path !== "/login") {
+  if (
+    !userStore.isAuthenticated() &&
+    !["/login", "/signup"].includes(to.path)
+  ) {
     return await navigateTo("/login");
   }
 });

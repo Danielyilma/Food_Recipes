@@ -1,20 +1,25 @@
-import { getUserQuery, loginQuery } from "~/queries/user";
+import { getUserQuery, getUsersQuery, loginQuery } from "~/queries/user";
 import { jwtDecode } from "jwt-decode";
-import type { CustomJwtPayload } from "~/types";
+import type { CustomJwtPayload } from "~/types/user";
+import { getUserRecipeQuery } from "~/queries/recipe";
 
 export const useUserStore = defineStore("user", () => {
   const user = ref();
+  const recipeIsliked = ref()
+  const userRecipes = ref([])
   const token = useCookie("recipe_token_864450f1-21a6-4fbf-be46-7ee6789af902", {
     maxAge: 60 * 60,
   });
 
   const setToken = (data?: any) => {
-    console.log(data);
     token.value = data;
   };
   const setUser = (data?: any) => {
     user.value = data;
   };
+  const setUserRecipes = (data?: any) => {
+    userRecipes.value = data
+  }
 
   const isAuthenticated = () => !!user.value;
 
@@ -37,7 +42,9 @@ export const useUserStore = defineStore("user", () => {
         const variables = {
           id: tokenItem.user_id,
         };
-        const { data }: any = await useAsyncQuery(getUserQuery, variables);
+
+        const { data, error }: any = await useAsyncQuery(getUserQuery, variables);
+        console.log(error)
         setUser(data.value.users[0]);
         // fetch user data
       } catch (error) {
@@ -47,6 +54,17 @@ export const useUserStore = defineStore("user", () => {
     }
   };
 
+  const fetchUserRecipes = async (id: number) => {
+    try {
+      const { data, error }:any = useAsyncQuery(getUserRecipeQuery, {id: id})
+      
+      setUserRecipes(data.value.recipes)
+    } catch (error) {
+        console.log(error)
+    }
+  }
+
+
   const logout = () => {
     setToken();
     setToken();
@@ -54,11 +72,13 @@ export const useUserStore = defineStore("user", () => {
 
   return {
     user,
+    userRecipes,
     token,
     setToken,
     setUser,
     login,
     fetchUser,
+    fetchUserRecipes,
     logout,
     isAuthenticated,
   };

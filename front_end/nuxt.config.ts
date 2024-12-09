@@ -25,7 +25,7 @@ export default defineNuxtConfig({
     authHeader: "Authorization",
     clients: {
       default: {
-        httpEndpoint: process.env.GRAPHQL_API || "",
+        httpEndpoint: process.env.NUXT_GRAPHQL_API || "",
       },
     },
   },
@@ -37,4 +37,10 @@ export default defineNuxtConfig({
   },
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
+  runtimeConfig: {
+    public: {
+      fileUploadApi: process.env.NUXT_FILE_UPLOAD_API || '',
+      imageDomainPath: process.env.NUXT_IMAGE_DOMAIN_PATH || ''
+    }
+  }
 });

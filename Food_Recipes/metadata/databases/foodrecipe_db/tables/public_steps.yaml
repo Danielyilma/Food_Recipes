@@ -1,3 +1,32 @@
 table:
   name: steps
   schema: public
+array_relationships:
+  - name: recipe_images
+    using:
+      foreign_key_constraint_on:
+        column: step_id
+        table:
+          name: recipe_images
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - instruction
+        - recipe_id
+        - step_number
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - recipe_id
+        - step_number
+        - instruction
+        - created_at
+        - updated_at
+      filter: {}
+    comment: ""

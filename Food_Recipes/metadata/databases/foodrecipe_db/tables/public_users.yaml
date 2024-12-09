@@ -1,17 +1,58 @@
 table:
   name: users
   schema: public
+array_relationships:
+  - name: bookmarks
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: bookmarks
+          schema: public
+  - name: comments
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: comments
+          schema: public
+  - name: likes
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: likes
+          schema: public
+  - name: recipes
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: recipes
+          schema: public
 select_permissions:
-  - role: user
+  - role: public
     permission:
       columns:
-        - id
         - email
-        - password
         - phone_number
         - profile_image
         - username
-        - created_at
-        - updated_at
       filter: {}
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - bio
+        - created_at
+        - email
+        - id
+        - password
+        - phone_number
+        - profile_image
+        - tag_name
+        - updated_at
+        - username
+      filter: {}
+      allow_aggregations: true
     comment: ""

@@ -81,7 +81,7 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
-		if helpers.CheckPassword(*user.Password, *login.Password) {
+		if !helpers.CheckPassword(*user.Password, *login.Password) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Wrong password or email"})
 			return
 		}

@@ -17,7 +17,7 @@
             id="username"
             label="Username"
             type="text"
-            v-model="username"
+            v-model="SignupData.username"
             placeholder="Choose a username"
           />
 
@@ -25,7 +25,7 @@
             id="email"
             label="Email address"
             type="email"
-            v-model="email"
+            v-model="SignupData.email"
             placeholder="Enter your email"
           />
 
@@ -33,7 +33,7 @@
             id="phone_number"
             label="Phone number"
             type="text"
-            v-model="phone_number"
+            v-model="SignupData.phone_number"
             placeholder="Your phone number"
           />
 
@@ -41,7 +41,7 @@
             id="password"
             label="Password"
             type="password"
-            v-model="password"
+            v-model="SignupData.password"
             placeholder="Create a password"
           />
 
@@ -49,7 +49,7 @@
             id="confirmPassword"
             label="Confirm Password"
             type="password"
-            v-model="confirmPassword"
+            v-model="SignupData.confirmPassword"
             placeholder="Confirm your password"
           />
 
@@ -85,6 +85,7 @@
         <button
           type="submit"
           class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          @click.prevent="signup"
         >
           Create Account
         </button>
@@ -110,16 +111,35 @@
 
 <script setup>
 import FormInput from "~/components/ui/FormInput.vue";
+import { signupQuery } from "~/queries/user";
+
 definePageMeta({
   layout: "empty",
   middleware: "authentication",
 });
-// const {
-//   username,
-//   email,
-//   password,
-//   confirmPassword,
-//   acceptTerms,
-//   handleSignup,
-// } = useAuth();
+
+const SignupData = ref({
+  username: "",
+  email: "",
+  password: "",
+  phone_number: "",
+  confirmPassword: "",
+});
+
+const signup = async () => {
+  const data = {
+    username: SignupData.value.username,
+    password: SignupData.value.password,
+    email: SignupData.value.email,
+    phone_number: SignupData.value.phone_number,
+  };
+
+  try {
+    const { mutate } = useMutation(signupQuery, data);
+    await mutate(data);
+    return await navigateTo("/login", { replace: true });
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>

@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/Danielyilma/Food_Recipes/services/routes"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -21,7 +22,16 @@ func main() {
 	}
 
 	router := gin.New()
+	router.MaxMultipartMemory = 8 << 20
 	router.Use(gin.Logger())
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"}, // Allow requests from your frontend origin
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Authorization", "Origin", "Content-Type", "Accept"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
+	router.Static("/uploads", "../uploads/")
 
 	routes.AuthRoutes(router)
 

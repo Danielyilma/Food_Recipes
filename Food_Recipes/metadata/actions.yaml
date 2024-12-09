@@ -1,4 +1,15 @@
 actions:
+  - name: fileUpload
+    definition:
+      kind: synchronous
+      handler: http://172.29.246.217:8090/upload
+      request_transform:
+        body:
+          action: transform
+          template: '{{$body.input.input}}'
+        template_engine: Kriti
+        version: 2
+    comment: fileUpload
   - name: login
     definition:
       kind: synchronous
@@ -26,13 +37,21 @@ actions:
         template_engine: Kriti
         version: 2
     permissions:
-      - role: user
+      - role: public
 custom_types:
   enums: []
   input_objects:
     - name: LoginInput
     - name: SignupInput
+    - name: CreateRecipeInput
+    - name: IngredientInput
+    - name: StepInput
+    - name: ImageInput
+    - name: RecipeInput
+    - name: RecipeImageInput
+    - name: RecipeIngredientInput
   objects:
     - name: TokenReturn
     - name: SignupOutput
+    - name: CreateRecipeOutput
   scalars: []
