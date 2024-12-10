@@ -11,7 +11,6 @@
               <span>•</span>
               <span>{{ recipe?.prep_time }} prep</span>
               <span></span>
-              <span class="text-sm ml-2">{{ likes }}</span>
               <!-- <span>•</span>
               <span>{{ recipe.cookTime }} cook</span>
               <span>•</span>
@@ -37,9 +36,10 @@
             </button>
             <button 
               @click="toggleLike"
-              class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+              class="flex p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
               :class="{ 'text-red-600': isLiked }"
             >
+              <span class="text-lg text-white pr-2 ml-2">{{ likes }}</span>
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path 
                   :d="isLiked
@@ -108,7 +108,7 @@ import RecipeComments from "~/components/recipes/RecipeComments.vue"
 import RecipeIngredients from "~/components/recipes/RecipeIngredients.vue"
 import { sendMutation, sendQuery } from '~/utils/req'
 import { dislikeRecipeQuery, getlikesByRecipeAndUserQuery, likeRecipeQuery } from '~/queries/recipe'
-import { addBookmarksQuery } from '~/queries/bookmarks'
+import { addBookmarksQuery, deleteBookmarkQuery } from '~/queries/bookmarks'
 
 definePageMeta({
   middleware: "authentication",
@@ -123,7 +123,7 @@ const recipeId = router.params.id
 await recipeStore.fetchRecipe(Number(recipeId))
 const recipe: RecipeDetail = recipeStore?.recipe
 
-await recipeStore.fetchRecipeLikes(Number(recipeId), userStore.user.id)
+await recipeStore.fetchRecipeLikes(userStore.user.id, Number(recipeId) )
 
 const likes = ref(recipeStore?.recipeLikes)
 const variable = {
@@ -132,7 +132,6 @@ const variable = {
 }
 const isBookmarked = ref()
 const isLiked = ref(recipeStore?.isLiked)
-isLiked.value = await sendQuery(getlikesByRecipeAndUserQuery, variable)
 console.log(isLiked.value)
 // isBookmarked.value = await sendQuery(addBookmarksQuery, variable)
 
@@ -224,16 +223,18 @@ console.log(isLiked.value)
 // })
 
 const toggleBookmark = async () => {
-  await sendMutation(addBookmarksQuery, variable)
+  if (isBookmarked.value) {
+    await sendMutation(deleteBookmarkQuery, variable)
+  } else {
+    await sendMutation(addBookmarksQuery, variable)
+  }
   isBookmarked.value = !isBookmarked.value
 }
 
 const toggleLike = async () => {
   if (isLiked.value) {
-    console.log("disliked")
     await sendMutation(dislikeRecipeQuery, variable)
   } else {
-    console.log("liked")
     await sendMutation(likeRecipeQuery, variable)
   }
   isLiked.value = !isLiked.value

@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"strings"
 
@@ -74,8 +73,6 @@ func JWTMiddleware() gin.HandlerFunc {
 			// Return the public key for verification
 			return key.Key, nil
 		})
-
-		log.Print(parsedToken)
 
 		if err != nil || !parsedToken.Valid {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})

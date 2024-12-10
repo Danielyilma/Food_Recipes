@@ -82,7 +82,8 @@ export const useRecipesStore = defineStore("recipes", () => {
         (newdata) => {
           if (newdata?.likes_aggregate) {
             setRecipelikes(newdata?.likes_aggregate?.aggregate?.count)
-            setisLiked(newdata?.likes)
+            setisLiked(newdata?.likes.length > 0)
+            console.log(recipeLikes, isLiked, "check")
           }
         },
         { immediate: true }

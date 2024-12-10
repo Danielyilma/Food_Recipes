@@ -15,7 +15,6 @@
         >
           <option value="newest">Newest First</option>
           <option value="oldest">Oldest First</option>
-          <option value="name">Name A-Z</option>
         </select>
       </div>
     </div>
@@ -24,10 +23,25 @@
   <script setup lang="ts">
   import { ref } from 'vue'
   
-  defineProps<{
+  const props = defineProps<{
     totalBookmarks: number
+    bookmarks: any
   }>()
   
   const searchQuery = ref('')
   const sortBy = ref('newest')
+  const BookmarkStore = useBookmarksStore()
+
+  const sortedBookmarks = computed(() => {
+    return [...props.bookmarks].sort((a, b) => {
+      switch (sortBy.value) {
+        case 'oldest':
+          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        default: // newest
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      }
+    })
+  })
+
+  BookmarkStore.bookmarks = sortedBookmarks.value
   </script>

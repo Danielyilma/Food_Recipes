@@ -11,6 +11,7 @@ export const addBookmarksQuery = gql`
 export const getBookmarkedrecipes = gql`
   query GetBookmarks($userId: Int!) {
     bookmarks(where: {user_id: {_eq: $userId}}) {
+      id
       recipe {
         category {
           name
@@ -26,6 +27,17 @@ export const getBookmarkedrecipes = gql`
           profile_image
           username
         }
+      }
+      created_at
+    }
+  }
+`;
+
+export const deleteBookmarkQuery = gql`
+  mutation DeleteBookmark($recipeId: Int!, $userId: Int!) {
+    delete_bookmarks(where: { recipe_id: { _eq: $recipeId }, user_id: { _eq: $userId } }) {
+      returning {
+        id
       }
     }
   }

@@ -65,6 +65,7 @@
     
   const useCategories = useCategoryStore()
   const userStore = useUserStore()
+  const config = useRuntimeConfig()
 
   definePageMeta({
     middleware: "authentication",
@@ -79,10 +80,7 @@
     ingredients: [] as { name: string; amount: string; unit: string }[],
     steps: [] as { description: string; image?: string }[],
     category_id: '1',
-    prepTime: '',
-    // cookTime: '',
-    // servings: 4,
-    // difficulty: 'Easy' as Recipe['difficulty']
+    prepTime: '' as string
   })
   
   const nextStep = () => {
@@ -101,7 +99,6 @@
     try {
 
       const formsData = new FormData()
-      const config = useRuntimeConfig()
 
       formsData.append("title", formData.title);
       formsData.append("description", formData.description);
@@ -111,8 +108,8 @@
       formsData.append("prepTime", formData.prepTime);
       // formsData.append("servings", formData.servings);
 
-
-      formsData.append('featured_image', formData.featuredImage);
+      const image_url = await upload_image(formData.featuredImage)
+      formsData.append('featured_image', image_url  );
 
       formData.ingredients.forEach((ingredient, index) => {
         formsData.append(`ingredient[${index}].name`, ingredient.name);
@@ -120,34 +117,58 @@
         formsData.append(`ingredient[${index}].unit`, ingredient.unit);
       })
 
-      formData.steps.forEach((step, index) => {
+      for (const [index, step] of formData.steps.entries()) {
           formsData.append(`steps[${index}].description`, step.description);
           formsData.append(`steps[${index}].step_number`, String(index + 1));
           if (step.image) {
-            formsData.append(`steps[${index}].image`, step.image);
+            const image_url = await upload_image(step.image)
+            formsData.append(`steps[${index}].image`, image_url);
           }
-      });
+      }
 
-      formData.images.forEach((image, index) => {
-          formsData.append(`images[${index}]`, image);
-      });
-      // In a real app, this would make an API call
-      const res = await fetch(config.public.fileUploadApi, {
+      for (const [index, image] of formData.images.entries()) {
+        const image_url = await upload_image(image)
+        formsData.append(`images[${index}]`, image_url);
+      }
+
+      const res = await fetch(config.public.fileUploadApi + "upload", {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${userStore.token}`
         },
         body: formsData
       })
-      const result = await res.json()
-      console.log(formsData)
-      console.log(result)
-      console.log('Submitting recipe:', formData)
-      // Redirect to the recipe page after successful creation
-      await navigateTo('/recipes')
+
+      
+      // const result = await res.json()
+      // console.log(result)
+      // console.log('Submitting recipe:', formData)
+      // // Redirect to the recipe page after successful creation
+      // await navigateTo('/recipes')
     } catch (error) {
       console.error('Error creating recipe:', error)
     }
+  }
+
+  const upload_image = async (image: string) => {
+    const formsData = new FormData()
+    formsData.append("file", image);
+
+    const uploadResponse = await fetch(config.public.fileUploadApi + "single-upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${userStore.token}`
+        },
+        body: formsData
+    });
+
+      if (!uploadResponse.ok) {
+        return "";
+      }
+      
+      const { url } = await uploadResponse.json();
+      console.log(url)
+      return url || ""
   }
   
   definePageMeta({

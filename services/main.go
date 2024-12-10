@@ -22,7 +22,7 @@ func main() {
 	}
 
 	router := gin.New()
-	router.MaxMultipartMemory = 8 << 20
+	router.MaxMultipartMemory = 50 * 1024 * 1024
 	router.Use(gin.Logger())
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"}, // Allow requests from your frontend origin

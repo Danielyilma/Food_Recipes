@@ -25,7 +25,7 @@
               Explore Recipes
             </NuxtLink>
             <NuxtLink
-              to="/share-recipe"
+              to="/recipes/create"
               class="bg-white hover:bg-gray-100 text-primary-600 px-6 py-3 rounded-lg font-medium"
             >
               Share Recipe

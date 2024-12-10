@@ -3,7 +3,7 @@
       <div class="flex items-center space-x-6">
         <div class="relative">
           <img 
-            :src="user?.profile_image" 
+            :src="config.public.imageDomainPath + user?.profile_image" 
             :alt="user?.username"
             class="w-24 h-24 rounded-full object-cover"
           >
@@ -72,6 +72,8 @@
   const emit = defineEmits<{
     (e: 'edit'): void
   }>()
+
+  const config = useRuntimeConfig()
   
   const openEditProfileModal = () => {
     emit('edit')

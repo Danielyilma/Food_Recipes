@@ -111,6 +111,7 @@ func SendMutation(recipe models.Recipe, c *gin.Context) (*models.InsertRecipesOn
 	// Optional: Add authentication header
 	// req.Header.Set("Authorization", "Bearer YOUR_TOKEN")
 
+	log.Print(req)
 	// Execute the request
 	var response struct {
 		InsertRecipesOne models.InsertRecipesOne `json:"insert_recipes_one"`

@@ -132,7 +132,7 @@
   // const cookTimeUnit = ref('mins')
   
   const updatePrepTime = () => {
-    emit('update:prepTime', prepTimeValue.value)
+    emit('update:prepTime', `${prepTimeValue.value}`)
   }
   
   // const updateCookTime = () => {

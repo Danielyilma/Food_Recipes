@@ -174,7 +174,6 @@ export const getLikeCountandislikedQuery = gql`
     id
   }
 }
-
 `;
 
 export const getUserRecipeQuery = gql`

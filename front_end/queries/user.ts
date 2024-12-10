@@ -56,3 +56,11 @@ export const getUsersQuery = gql`
     }
   }
 `;
+
+export const updateUserQuery = gql`
+  mutation UpdateUser($id: Int!, $bio: String!, $profileImage: String!) {
+    update_users_by_pk(pk_columns: {id: $id}, _set: {bio: $bio, profile_image: $profileImage}) {
+      id
+    }
+  }
+`;

@@ -31,7 +31,7 @@
                   <div class="flex items-center space-x-4">
                     <div class="relative">
                       <img 
-                        :src="formData.avatar" 
+                        :src="formData.image_url"
                         class="w-20 h-20 rounded-full object-cover"
                         alt="Profile avatar"
                       >
@@ -91,14 +91,14 @@
                     ></textarea>
                   </div>
   
-                  <div>
+                  <!-- <div>
                     <FormInput
                       id="location"
                       label="Location"
                       v-model="formData.location"
                       placeholder="Your location"
                     />
-                  </div>
+                  </div> -->
   
                   <div class="flex justify-end space-x-3 mt-6">
                     <button
@@ -134,11 +134,14 @@
     TransitionRoot,
   } from '@headlessui/vue'
   import type { User } from '~/types/user'
+import { updateUserQuery } from '~/queries/user';
   
   const props = defineProps<{
     isOpen: boolean
     user: User
   }>()
+  const userStore = useUserStore()
+  const config = useRuntimeConfig()
   
   const emit = defineEmits<{
     (e: 'close'): void
@@ -147,11 +150,10 @@
   
   const fileInput = ref<HTMLInputElement | null>(null)
   const formData = ref({
-    name: props.user.name,
     username: props.user.username,
     bio: props.user.bio,
-    location: props.user.location,
-    avatar: props.user.avatar
+    image_url: config.public.imageDomainPath + props.user.profile_image,
+    image: ""
   })
   
   const triggerFileInput = () => {
@@ -163,7 +165,8 @@
     if (file) {
       const reader = new FileReader()
       reader.onload = (e) => {
-        formData.value.avatar = e.target?.result as string
+        formData.value.image = e.target?.result as string
+        formData.value.image_url = e.target?.result as string
       }
       reader.readAsDataURL(file)
     }
@@ -173,8 +176,27 @@
     emit('close')
   }
   
-  const handleSubmit = () => {
-    emit('update', formData.value)
+  const handleSubmit = async() => {
+    const formsData = new FormData()
+    formsData.append("file", formData.value.image);
+
+    const uploadResponse = await fetch(config.public.fileUploadApi + "single-upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${userStore.token}`
+        },
+        body: formsData
+      });
+
+      // if (!uploadResponse.ok) {
+      //   // return;
+      // }
+      
+      const { url } = await uploadResponse.json();
+      formData.value.image = url
+      await sendMutation(updateUserQuery, {id: userStore.user.id, bio: formData.value.bio, profileImage: url || formData.value.image_url})
+      userStore.user.profile_image = url
+      userStore.user.bio = formData.value.bio
     closeModal()
   }
   </script>

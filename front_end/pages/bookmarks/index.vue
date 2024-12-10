@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto px-4 py-8">
       <div class="max-w-6xl mx-auto">
-        <BookmarksHeader :total-bookmarks="useBookmark.bookmarks.length" />
+        <BookmarksHeader :bookmarks="useBookmark.bookmarks" :total-bookmarks="useBookmark.bookmarks.length" />
         
         <div v-if="loading" class="flex justify-center py-12">
           <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
@@ -14,7 +14,7 @@
         <div v-else>
           <BookmarksList 
             v-if="useBookmark.bookmarks.length > 0"
-            :recipes="useBookmark.bookmarks"
+            :bookmarks="useBookmark.bookmarks"
             @remove="removeBookmark"
           />
           
@@ -34,9 +34,11 @@
   
   <script setup lang="ts">
   import { ref } from 'vue'
-  import type { Recipe } from '~/types/recipe'
-  import { usePagination } from '~/composables/usePagination'
+import { deleteBookmarkQuery } from '~/queries/bookmarks';
   
+  definePageMeta({
+    middleware: "authentication",
+  });
   const loading = ref(false)
   const error = ref('')
   const itemsPerPage = 12
@@ -44,6 +46,7 @@
   const userStore = useUserStore()
 
   await useBookmark.fetchBookmarks(userStore.user.id)
+  console.log(useBookmark.bookmarks)
 
 
   
@@ -82,8 +85,12 @@
   
   const removeBookmark = async (recipeId: number) => {
     try {
-      // In a real app, this would make an API call
-      useBookmark.bookmarks = useBookmark.bookmarks.filter(recipe => recipe.id !== recipeId)
+      console.log(recipeId)
+      await sendMutation(deleteBookmarkQuery, {
+        recipeId,
+        userId: userStore.user.id
+      })
+      useBookmark.bookmarks = useBookmark.bookmarks.filter(bookmark => bookmark?.recipe?.id !== recipeId)
     } catch (err) {
       error.value = 'Failed to remove bookmark. Please try again.'
     }

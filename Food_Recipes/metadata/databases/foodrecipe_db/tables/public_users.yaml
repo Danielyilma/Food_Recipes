@@ -56,3 +56,19 @@ select_permissions:
       filter: {}
       allow_aggregations: true
     comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - bio
+        - email
+        - password
+        - phone_number
+        - profile_image
+        - tag_name
+        - username
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null
+    comment: ""

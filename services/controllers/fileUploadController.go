@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Danielyilma/Food_Recipes/services/helpers"
 	"github.com/Danielyilma/Food_Recipes/services/models"
 	"github.com/Danielyilma/Food_Recipes/services/query"
 	"github.com/gin-gonic/gin"
@@ -64,14 +63,15 @@ func FileUpload() gin.HandlerFunc {
 		var steps []models.Step
 		for i := 0; i < stepCount; i++ {
 			Instruction := c.DefaultPostForm(fmt.Sprintf("steps[%d].description", i), "")
-			image := c.DefaultPostForm(fmt.Sprintf("steps[%d].image", i), "")
+			image_path := c.DefaultPostForm(fmt.Sprintf("steps[%d].image", i), "")
 			step_number, _ := strconv.Atoi(c.DefaultPostForm(fmt.Sprintf("steps[%d].step_number", i), ""))
-			path, err := helpers.UploadFile(image)
+			// path, err := helpers.UploadFile(image)
+			log.Print(image_path)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				return
 			}
-			steps = append(steps, models.Step{StepNumber: step_number, Instruction: Instruction, RecipeImages: models.RecipeImage{ImageURL: *path}})
+			steps = append(steps, models.Step{StepNumber: step_number, Instruction: Instruction, RecipeImages: models.RecipeImage{ImageURL: image_path}})
 		}
 		recipe.Steps = steps
 
@@ -79,22 +79,24 @@ func FileUpload() gin.HandlerFunc {
 		var images []models.RecipeImage
 
 		for i := 0; i < imageCount; i++ {
-			image := c.DefaultPostForm(fmt.Sprintf("images[%d]", i), "")
-			path, err := helpers.UploadFile(image)
+			image_path := c.DefaultPostForm(fmt.Sprintf("images[%d]", i), "")
+			log.Print(image_path)
+			// path, err := helpers.UploadFile(image)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				return
 			}
 			if i == 0 {
-				recipe.Thumbnail = *path
+				recipe.Thumbnail = image_path
 			}
-			images = append(images, models.RecipeImage{ImageURL: *path})
+			images = append(images, models.RecipeImage{ImageURL: image_path})
 		}
 		recipe.Images = images
 
 		response, err := query.SendMutation(recipe, c)
 
 		if err != nil {
+			log.Print(err.Error())
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}

@@ -61,6 +61,9 @@ func UploadFile(data string) (*string, error) {
 	if err != nil {
 		return nil, err
 	}
+	if fileType == nil {
+		*fileType = "jpeg"
+	}
 	path := fmt.Sprintf("%s_%s.%s", uuid.New(), time.Now().Format("20060102_150405"), *fileType)
 	err = saveFile(path, decodedData)
 

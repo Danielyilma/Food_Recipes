@@ -11,4 +11,5 @@ func AuthRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.POST("/signup", controllers.Signup())
 	incomingRoutes.GET("/.well-known/jwks", controllers.ServeJwk())
 	incomingRoutes.POST("/upload", middleware.JWTMiddleware(), controllers.FileUpload())
+	incomingRoutes.POST("/single-upload", middleware.JWTMiddleware(), controllers.Upload())
 }
