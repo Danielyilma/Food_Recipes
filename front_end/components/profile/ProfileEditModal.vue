@@ -31,7 +31,7 @@
                   <div class="flex items-center space-x-4">
                     <div class="relative">
                       <img 
-                        :src="formData.image_url"
+                        :src="formData.image"
                         class="w-20 h-20 rounded-full object-cover"
                         alt="Profile avatar"
                       >

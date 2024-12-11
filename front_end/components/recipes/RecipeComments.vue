@@ -25,7 +25,7 @@
     <div class="space-y-6">
       <div v-for="comment in useComments?.comments" :key="comment.id" class="flex space-x-4">
         <img
-          :src="comment?.user?.profile_image"
+          :src="config.public.imageDomainPath + comment?.user?.profile_image"
           :alt="comment?.user?.username"
           class="w-10 h-10 rounded-full"
         />
@@ -37,7 +37,7 @@
                 comment?.user?.username
               }}</span>
               <span class="text-sm text-gray-500 dark:text-gray-400">{{
-                formatDate(comment?.createdAt)
+                formatDate(comment?.created_at)
               }}</span>
             </div>
             <p class="text-gray-700 dark:text-gray-300">
@@ -61,8 +61,9 @@ const props = defineProps<{
 
 const userStore = useUserStore()
 const useComments = useCommentsStore();
+const config = useRuntimeConfig()
 
-await useComments.fetchComments(props.recipe_id)
+await useComments.fetchComments(props.recipe_id, userStore.user.id)
 const newComment = ref("");
 
 const formatDate = (date: string) => {

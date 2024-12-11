@@ -7,12 +7,10 @@ export const useBookmarksStore = defineStore("bookmarks", () => {
     const setBookmarks = (data?: any) => (bookmarks.value = data);
     const fetchBookmarks = async (userId: number) => {
         try {
-            const { data, error }: any = await useAsyncQuery(getBookmarkedrecipes, {userId})
-            console.log(data, error, "ssssssss")
+            const { data, error }: any = await useAsyncQuery(getBookmarkedrecipes, {userId})    
             watch(
                 data,
                 (newdata) => {
-                  console.log(data, "ddddddddddddddddddddd")
                   if (newdata?.bookmarks) {
                     console.log(newdata?.bookmarks)
                     setBookmarks(newdata.bookmarks);

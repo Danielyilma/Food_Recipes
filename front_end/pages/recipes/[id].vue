@@ -39,7 +39,7 @@
               class="flex p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
               :class="{ 'text-red-600': isLiked }"
             >
-              <span class="text-lg text-white pr-2 ml-2">{{ likes }}</span>
+              <span class="text-lg dark:text-white pr-2 ml-2">{{ likes }}</span>
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path 
                   :d="isLiked
@@ -90,7 +90,7 @@
         <div>
           <RecipeIngredients 
             :ingredients="recipe?.recipe_ingredients"
-            :initial-servings="recipe?.servings"
+            :initial-servings="recipe?.servings || 1"
           />
         </div>
       </div>
@@ -135,92 +135,6 @@ const isLiked = ref(recipeStore?.isLiked)
 console.log(isLiked.value)
 // isBookmarked.value = await sendQuery(addBookmarksQuery, variable)
 
-
-
-
-
-// In a real app, this would fetch from an API based on the route param
-// const recipe: Recipe = {
-//   id: 1,
-//   title: 'Classic Pancakes',
-//   description: 'Light and fluffy pancakes that are perfect for breakfast or brunch. Serve with maple syrup and fresh berries.',
-//   recipe_images: [
-//     {image_url: 'https://images.unsplash.com/photo-1528207776546-365bb710ee93?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'}
-//   ],
-//   category: {
-//     name: "Breakfast"
-//   },
-//   prep_time: '15 mins',
-//   cookTime: '20 mins',
-//   servings: 4,
-//   difficulty: 'Easy',
-//   user: {
-//     username: 'John Doe',
-//     profile_image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-//   },
-//   isPaid: false,
-//   recipe_ingredients: [
-//     { id: 1, ingredient: {name: 'All-purpose flour'}, amount: '1.5', unit: 'cups' },
-//     { id: 2, ingredient: {name: 'Baking powder'}, amount: '3.5', unit: 'tsp' },
-//     { id: 3, ingredient: {name: 'Salt'}, amount: '0.25', unit: 'tsp' },
-//     { id: 4, ingredient: {name: 'Sugar'}, amount: '1', unit: 'tbsp' },
-//     { id: 5, ingredient: {name: 'Milk'}, amount: '1.25', unit: 'cups' },
-//     { id: 6, ingredient: {name: 'Egg'}, amount: '1', unit: '' },
-//     { id: 7, ingredient: {name: 'Melted butter'}, amount: '3', unit: 'tbsp' }
-//   ],
-//   steps: [
-//     {
-//       id: 1,
-//       step_number: 1,
-//       instruction: 'In a large bowl, whisk together the flour, baking powder, salt, and sugar.',
-//       image: [
-//         {image_url: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'}
-//       ]
-//     },
-//     {
-//       id: 2,
-//       step_number: 2,
-//       instruction: 'In another bowl, whisk together the milk, egg, and melted butter.',
-//       image: [
-//         {image_url: 'https://images.unsplash.com/photo-1568254183919-78a4f43a2877?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'}
-//       ]
-//     },
-//     {
-//       id: 3,
-//       step_number: 3,
-//       instruction: 'Pour the wet ingredients into the dry ingredients and whisk until just combined. Do not overmix.',
-//       image: [
-//         {image_url: 'https://images.unsplash.com/photo-1519420573924-65fcd45245f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'}
-//       ]
-//     }
-//   ],
-//   comments: [
-//     {
-//       id: 1,
-//       author: {
-//         name: 'Jane Smith',
-//         avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-//       },
-//       content: 'These pancakes turned out amazing! So fluffy and delicious.',
-//       createdAt: '2024-03-15T08:00:00.000Z'
-//     }
-//   ],
-//   likes: 42,
-//   isLiked: false,
-//   isBookmarked: false,
-//   rating: 4.5
-// }
-
-// Combine all recipe images including featured and step images
-// const recipeImages = computed(() => {
-//   const images = [recipe.image]
-//   recipe.steps.forEach(step => {
-//     if (step.image) {
-//       images.push(step.image)
-//     }
-//   })
-//   return images
-// })
 
 const toggleBookmark = async () => {
   if (isBookmarked.value) {

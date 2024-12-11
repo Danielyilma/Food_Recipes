@@ -11,7 +11,7 @@
           <NavLinks />
           <ThemeToggle />
           <AuthSection />
-          <UserMenu />
+          <UserMenu v-if="userStore.isAuthenticated()"/>
         </div>
       </div>
     </nav>
@@ -23,4 +23,6 @@ import SearchBar from '~/components/navigation/SearchBar.vue'
 import NavLinks from '~/components/navigation/NavLinks.vue'
 import AuthSection from '~/components/navigation/AuthSection.vue'
 import UserMenu from '~/components/navigation/UserMenu.vue'
+
+const userStore = useUserStore()
 </script>

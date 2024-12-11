@@ -20,8 +20,8 @@
           <p class="text-gray-700 dark:text-gray-300">{{ step.instruction }}</p>
 
           <img
-            v-if="step.image"
-            :src="config.public.imageDomainPath + step.image[0].image_url"
+            v-if="step.recipe_images"
+            :src="config.public.imageDomainPath + step.recipe_images[0].image_url"
             :alt="`Step ${step.step_number}`"
             class="rounded-lg w-full h-48 object-cover"
           />

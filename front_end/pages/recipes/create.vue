@@ -70,6 +70,7 @@
   definePageMeta({
     middleware: "authentication",
   });
+  
   useCategories.fetchCategories()
   const currentStep = ref(1)
   const formData = reactive({
@@ -131,7 +132,7 @@
         formsData.append(`images[${index}]`, image_url);
       }
 
-      const res = await fetch(config.public.fileUploadApi + "upload", {
+      fetch(config.public.fileUploadApi + "upload", {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${userStore.token}`
@@ -144,7 +145,7 @@
       // console.log(result)
       // console.log('Submitting recipe:', formData)
       // // Redirect to the recipe page after successful creation
-      // await navigateTo('/recipes')
+      await navigateTo('/recipes')
     } catch (error) {
       console.error('Error creating recipe:', error)
     }

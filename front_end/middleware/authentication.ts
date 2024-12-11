@@ -7,6 +7,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     return await navigateTo("/");
   }
 
+  console.log("sssssssssssssssssssssssssssssss")
   if (
     !userStore.isAuthenticated() &&
     !["/login", "/signup"].includes(to.path)

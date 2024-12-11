@@ -56,6 +56,7 @@ export const getRecipeQuery = gql`
         }
       }
       recipe_ingredients {
+        unit
         quantity
         ingredient {
           name
@@ -149,8 +150,8 @@ export const getlikesByRecipeAndUserQuery = gql`
 `;
 
 export const getCommentQuery = gql`
-  query GetCommentsByRecipe {
-    comments(where: { recipe_id: { _eq: 2 } }) {
+  query GetCommentsByRecipe($recipeId: Int!, $userId: Int!) {
+    comments(where: { recipe_id: { _eq: $recipeId }, user_id: {_eq: $userId} }) {
       id
       user_id
       user {

@@ -116,9 +116,14 @@
 </template>
 
 <script setup>
-definePageMeta({
-  middleware: "authentication",
-});
+// definePageMeta({
+//   middleware: "authentication",
+// });
+
+const categoriesStore = useCategoryStore()
+
+categoriesStore.fetchCategories()
+
 const categories = [
   {
     id: 1,

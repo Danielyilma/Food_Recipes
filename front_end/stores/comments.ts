@@ -6,13 +6,13 @@ export const useCommentsStore = defineStore("comments", () => {
 
     const setComments = (data?: any) => (comments.value = data);
     
-    const fetchComments = async (id: number) => {
+    const fetchComments = async (recipeId: number, userId: number) => {
       try {
         const { data, error }: any = await useAsyncQuery(getCommentQuery, {
-          RecipeId: id
+          recipeId: recipeId,  userId: userId
         });
         
-        console.log(data, error)
+        console.log(data, error, "ssssssssssssssssssssssssss")
         if (!data.value) {
           throw new Error("no value returned");
         }

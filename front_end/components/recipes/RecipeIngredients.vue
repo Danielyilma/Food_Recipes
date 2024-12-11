@@ -59,7 +59,7 @@
         class="flex items-center text-gray-700 dark:text-gray-300"
       >
         <span class="w-16 font-medium"
-          >{{ calculateAmount(ingredient.amount) }} {{ ingredient.unit }}</span
+          >{{ calculateAmount(ingredient.quantity) }} {{ ingredient.unit }}</span
         >
         <span>{{ ingredient.ingredient.name }}</span>
       </li>
@@ -86,6 +86,7 @@ const updateServings = (change: number) => {
 
 const calculateAmount = (amount: string) => {
   const baseAmount = parseFloat(amount);
+  console.log(baseAmount, amount)
   return ((baseAmount * servings.value) / props.initialServings).toFixed(1);
 };
 </script>
