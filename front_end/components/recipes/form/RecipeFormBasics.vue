@@ -63,7 +63,7 @@
   }>()
   
   const isValid = computed(() => 
-    title.value.trim().length > 0 && 
+    title.value?.trim().length > 0 && 
     description.value.trim().length > 0
   )
   </script>

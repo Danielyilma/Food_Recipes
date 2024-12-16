@@ -42,10 +42,11 @@
             
             <RecipeFormDetails
               v-if="currentStep === 5"
-              v-model:category="formData.category_id"
+              v-model:category_id="formData.category_id"
               v-model:prep-time="formData.prepTime"
               @submit="handleSubmit"
               @back="previousStep"
+              status="Create"
             />
           </div>
         </div>

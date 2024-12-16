@@ -107,6 +107,23 @@ func saveFile(filePath string, data []byte) error {
 	return nil
 }
 
+func DeleteFile(filePath string) error {
+	fullPath := fmt.Sprintf("../uploads/%s", filePath)
+
+	if _, err := os.Stat(fullPath); err != nil {
+		if os.IsNotExist(err) {
+			return nil
+		}
+		return err
+	}
+
+	if err := os.Remove(fullPath); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func GetFileExtension(data string) string {
 	parts := strings.Split(data, ";")
 	if len(parts) > 0 {

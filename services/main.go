@@ -20,12 +20,16 @@ func main() {
 	if port == "" {
 		port = "8090"
 	}
+	CORS := os.Getenv("CORS")
+	if CORS == "" {
+		CORS = "http://localhost:3000"
+	}
 
 	router := gin.New()
 	router.MaxMultipartMemory = 50 * 1024 * 1024
 	router.Use(gin.Logger())
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"}, // Allow requests from your frontend origin
+		AllowOrigins:     []string{CORS}, // Allow requests from your frontend origin
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Authorization", "Origin", "Content-Type", "Accept"},
 		ExposeHeaders:    []string{"Content-Length"},

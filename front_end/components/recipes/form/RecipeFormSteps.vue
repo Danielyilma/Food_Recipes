@@ -37,7 +37,7 @@
               <div class="flex items-center gap-4">
                 <img
                   v-if="step.image"
-                  :src="step.image"
+                  :src="step?.image"
                   :alt="`Step ${index + 1}`"
                   class="w-24 h-24 object-cover rounded-lg"
                 >

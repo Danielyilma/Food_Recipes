@@ -21,7 +21,7 @@
 
           <img
             v-if="step.recipe_images"
-            :src="config.public.imageDomainPath + step.recipe_images[0].image_url"
+            :src="config.public.imageDomainPath + step?.recipe_images[0]?.image_url"
             :alt="`Step ${step.step_number}`"
             class="rounded-lg w-full h-48 object-cover"
           />

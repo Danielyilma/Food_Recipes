@@ -34,13 +34,13 @@
         </div>
 
         <!-- Pagination -->
-        <!-- <Pagination
-          v-if="totalItems > 0"
-          :current-page="currentPage"
-          :total-items="totalItems"
-          :items-per-page="itemsPerPage"
+        <!-- v-if="totalItems > 0" -->
+        <Pagination
+          :current-page="useRecipe.currentPage"
+          :total-items="useRecipe.totalRecipes"
+          :items-per-page="useRecipe.pageSize"
           @update:page="updatePage"
-        /> -->
+        />
 
         <!-- No Results -->
         <div v-if="useRecipe.recipes.length === 0" class="text-center py-12">
@@ -70,6 +70,14 @@ const useRecipe = useRecipesStore();
 const useFilter = useRecipeFilters();
 
 await useRecipe.fetchRecipes(1);
+
+const updatePage = async (current_page: any) => {
+  await useRecipe.fetchRecipes(current_page)
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
 
 // const recipes: Recipe[] = useRecipe.recipes;
 // Sample data - In a real app, this would come from an API

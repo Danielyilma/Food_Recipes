@@ -30,3 +30,8 @@ select_permissions:
         - updated_at
       filter: {}
     comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+    comment: ""

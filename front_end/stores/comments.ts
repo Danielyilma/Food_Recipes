@@ -2,17 +2,17 @@ import { getCommentQuery } from "~/queries/recipe";
 
 
 export const useCommentsStore = defineStore("comments", () => {
-    const comments = ref([])
+    const comments = ref<any>([])
 
     const setComments = (data?: any) => (comments.value = data);
     
-    const fetchComments = async (recipeId: number, userId: number) => {
+    const fetchComments = async (recipeId: number) => {
       try {
         const { data, error }: any = await useAsyncQuery(getCommentQuery, {
-          recipeId: recipeId,  userId: userId
+          recipeId: recipeId
         });
         
-        console.log(data, error, "ssssssssssssssssssssssssss")
+        // console.log(data, error, "ssssssssssssssssssssssssss")
         if (!data.value) {
           throw new Error("no value returned");
         }

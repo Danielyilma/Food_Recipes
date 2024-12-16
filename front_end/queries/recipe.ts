@@ -10,6 +10,7 @@ export const getRecipesQuery = gql`
       user {
         username
         profile_image
+        phone_number
       }
       category {
         name
@@ -37,6 +38,7 @@ export const getRecipeQuery = gql`
         name
       }
       title
+      thumbnail
       category_id
       description
       id
@@ -112,6 +114,13 @@ export const insertRecipeCommentQuery = gql`
     insert_comments(objects: {recipe_id: $recipeId, content: $content, user_id: $userId}) {
       returning {
         id
+      user_id
+      user {
+        username
+        profile_image
+      }
+      content
+      created_at
       }
     }
   }
@@ -150,8 +159,8 @@ export const getlikesByRecipeAndUserQuery = gql`
 `;
 
 export const getCommentQuery = gql`
-  query GetCommentsByRecipe($recipeId: Int!, $userId: Int!) {
-    comments(where: { recipe_id: { _eq: $recipeId }, user_id: {_eq: $userId} }) {
+  query GetCommentsByRecipe($recipeId: Int!) {
+    comments(where: { recipe_id: { _eq: $recipeId } }) {
       id
       user_id
       user {

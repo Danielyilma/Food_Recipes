@@ -40,7 +40,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       fileUploadApi: process.env.NUXT_FILE_UPLOAD_API || '',
-      imageDomainPath: process.env.NUXT_IMAGE_DOMAIN_PATH || ''
+      imageDomainPath: process.env.NUXT_IMAGE_DOMAIN_PATH || '',
+      chapaApiKey: process.env.NUXT_CHAPA_API_KEY || '',
+      chapaInitApi: process.env.NUXT_CHAPA_INIT_API || ''
     }
   }
 });

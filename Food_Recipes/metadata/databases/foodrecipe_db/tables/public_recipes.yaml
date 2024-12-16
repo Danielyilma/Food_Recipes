@@ -101,6 +101,20 @@ select_permissions:
       filter: {}
       allow_aggregations: true
     comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - category_id
+        - description
+        - is_paid
+        - prep_time
+        - price
+        - thumbnail
+        - title
+      filter: {}
+      check: null
+    comment: ""
 delete_permissions:
   - role: user
     permission:

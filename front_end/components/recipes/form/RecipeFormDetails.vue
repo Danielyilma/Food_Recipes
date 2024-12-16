@@ -98,7 +98,7 @@
           :disabled="!isValid"
           class="px-4 py-2 bg-primary-600 text-white rounded-lg disabled:opacity-50"
         >
-          Create Recipe
+          {{ status }} Recipe
         </button>
       </div>
     </div>
@@ -111,8 +111,9 @@
   const useCategory = useCategoryStore()
   
   const props = defineProps<{
-    category: string
+    category_id: string
     prepTime: string
+    status: string
   }>()
   
   const emit = defineEmits<{
@@ -122,12 +123,12 @@
     (e: 'back'): void
   }>()
   
-  const category_id = ref(props.category)
+  const category_id = ref(props.category_id)
   // const difficulty = ref(props.difficulty)
   // const servings = ref(props.servings)
   
   // Time handling
-  const prepTimeValue = ref('')
+  const prepTimeValue = ref(props.prepTime || "")
   const prepTimeUnit = ref('mins')
   // const cookTimeUnit = ref('mins')
   

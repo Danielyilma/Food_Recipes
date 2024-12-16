@@ -16,7 +16,6 @@ export const useRecipeFilters = () => {
       const isEmpty = activeFilters.value.categories.length === 0 &&
       !activeFilters.value.creator && !searchQuery.value
 
-      console.log(searchQuery.value, isEmpty, "te")
       if (isEmpty) {
         useRecipe.fetchRecipes(1)
         return;
@@ -29,14 +28,11 @@ export const useRecipeFilters = () => {
       };
 
       variables.search = variables.search === "%%" ? "" : variables.search;
-      console.log(variables, "varibles");
       const { result, error }: any = useQuery(getFilteredRecipesQuery, variables);
-      console.log(result, error)
       watch(
         result,
         (newResult) => {
           if (newResult?.recipes) {
-            console.log(newResult.recipes, "tes")
             useRecipe.setRecipes(newResult.recipes);
           }
         },

@@ -42,7 +42,7 @@
           Popular Categories
         </h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div v-for="category in categories" :key="category.id" class="group">
+          <div v-for="category in categoriesStore.categories" :key="category.id" class="group">
             <NuxtLink :to="'/categories/' + category.slug" class="block">
               <div class="relative rounded-lg overflow-hidden">
                 <img
@@ -123,6 +123,7 @@
 const categoriesStore = useCategoryStore()
 
 categoriesStore.fetchCategories()
+console.log(categoriesStore.categories)
 
 const categories = [
   {

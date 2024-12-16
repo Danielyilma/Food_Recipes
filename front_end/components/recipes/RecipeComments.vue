@@ -63,7 +63,7 @@ const userStore = useUserStore()
 const useComments = useCommentsStore();
 const config = useRuntimeConfig()
 
-await useComments.fetchComments(props.recipe_id, userStore.user.id)
+await useComments.fetchComments(props.recipe_id)
 const newComment = ref("");
 
 const formatDate = (date: string) => {
@@ -85,12 +85,15 @@ const handleSubmit = async () => {
     try {
       const { mutate } = useMutation<any>(insertRecipeCommentQuery, variable) 
       const {data}: any = await mutate(variable)
-      console.log(data)
+
+      if (data?.insert_comments?.returning?.[0]) {
+        const addedComment: any = data.insert_comments.returning[0];
+        useComments.comments.push(addedComment);
+      }
     } catch (error) {
       console.log(error)
     }
-    // In a real app, this would make an API call
-    console.log("New comment:", newComment.value);
+
     newComment.value = "";
   }
 };

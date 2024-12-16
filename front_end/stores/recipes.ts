@@ -1,14 +1,14 @@
-import { getRecipesQuery, getRecipeQuery, getLikeCountQuery, getLikeCountandislikedQuery } from "~/queries/recipe";
-import type { Recipe } from "~/types/recipe";
+import { getRecipesQuery, getRecipeQuery, getLikeCountandislikedQuery } from "~/queries/recipe";
+import type { Recipe, RecipeDetail } from "~/types/recipe";
 
 export const useRecipesStore = defineStore("recipes", () => {
   const recipes = ref<Recipe[]>([]);
-  const recipe = ref({})
+  const recipe = ref<any>({})
   const isLiked = ref()
   const recipeLikes = ref()
-  const totalRecipes = ref();
+  const totalRecipes = ref(0);
   const currentPage = ref(1);
-  const pageSize = ref(10);
+  const pageSize = ref(5);
 
   const setRecipes = (data?: any) => (recipes.value = data);
   const setTotalRecipe = (data?: any) => (totalRecipes.value = data);
@@ -98,6 +98,8 @@ export const useRecipesStore = defineStore("recipes", () => {
   return {
     recipe,
     recipeLikes,
+    totalRecipes,
+    pageSize,
     isLiked,
     recipes,
     currentPage,

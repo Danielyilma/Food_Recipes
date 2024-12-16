@@ -4,6 +4,7 @@ export const getCategorisQuery = gql`
             id
             name    
             description
+            image
             recipes_aggregate {
                 aggregate {
                     count

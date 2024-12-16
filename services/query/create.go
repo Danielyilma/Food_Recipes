@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/Danielyilma/Food_Recipes/services/models"
 	"github.com/gin-gonic/gin"
@@ -46,29 +47,12 @@ func mapRecipeSteps(steps []models.Step) map[string]interface{} {
 	}
 }
 
-func SendMutation(recipe models.Recipe, c *gin.Context) (*models.InsertRecipesOne, error) {
-	client := graphql.NewClient("http://localhost:8080/v1/graphql")
-
-	// Define the mutation
-	mutation := `
-	mutation InsertRecipe($title: String!, $description: String!, $prepTime: Int!, $thumbnail: String, $isPaid: Boolean, $price: numeric, $categoryId: Int!, $ingredients: recipe_ingredients_arr_rel_insert_input, $steps: steps_arr_rel_insert_input, $images: recipe_images_arr_rel_insert_input) {
-		insert_recipes_one(object: {
-			title: $title
-			description: $description
-			prep_time: $prepTime
-			thumbnail: $thumbnail
-			is_paid: $isPaid
-			price: $price
-			category_id: $categoryId
-			recipe_ingredients: $ingredients
-			steps: $steps
-			recipe_images: $images
-		}) {
-			id
-			title
-			created_at
-		}
-	}`
+func SendMutation(mutation string, recipe models.Recipe, c *gin.Context) (*models.InsertRecipesOne, error) {
+	GRAPHQL_API := os.Getenv("GRAPHQL_API")
+	if GRAPHQL_API == "" {
+		GRAPHQL_API = "http://localhost:8080/v1/graphql"
+	}
+	client := graphql.NewClient(GRAPHQL_API)
 
 	// Convert the struct into a format that GraphQL can accept
 	ingredients := map[string]interface{}{
@@ -107,6 +91,10 @@ func SendMutation(recipe models.Recipe, c *gin.Context) (*models.InsertRecipesOn
 	req.Var("ingredients", ingredients)
 	req.Var("steps", steps)
 	req.Var("images", images)
+
+	if recipe.Id != nil {
+		req.Var("recipe_id", *recipe.Id)
+	}
 
 	// Optional: Add authentication header
 	// req.Header.Set("Authorization", "Bearer YOUR_TOKEN")

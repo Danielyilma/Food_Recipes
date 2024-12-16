@@ -87,6 +87,7 @@
     ingredients: Ingredient[]
   }>()
   
+  console.log(props.ingredients)
   const emit = defineEmits<{
     (e: 'update:ingredients', value: Ingredient[]): void
     (e: 'next'): void
@@ -111,7 +112,7 @@
   }
   
   const isValid = computed(() => 
-    props.ingredients.length > 0 &&
+    props.ingredients?.length > 0 &&
     props.ingredients.every(ingredient => 
       ingredient.name.trim() && 
       ingredient.amount.trim()

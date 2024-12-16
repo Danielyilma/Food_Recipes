@@ -5,7 +5,7 @@ package models
 type Recipe_ingredients struct {
 	Ingredient Ingredient `form:"ingredient"`
 	Amount     string     `form:"amount"`
-	Unit       string     `form:unit`
+	Unit       string     `form:"unit"`
 }
 
 type Ingredient struct {
@@ -26,6 +26,7 @@ type Step struct {
 
 // FileUploadInput represents the input structure for the fileUpload mutation.
 type Recipe struct {
+	Id          *int                 `form:"id,omitempty"`
 	Title       string               `form:"title"`
 	Description string               `form:"description"`
 	PrepTime    int                  `form:"prepTime"`
@@ -43,4 +44,8 @@ type InsertRecipesOne struct {
 	ID        int    `json:"id"`
 	Title     string `json:"title"`
 	CreatedAt string `json:"created_at"`
+}
+
+type Response struct {
+	UpdateRecipesByPk int `json:"update_recipes_by_pk"`
 }
