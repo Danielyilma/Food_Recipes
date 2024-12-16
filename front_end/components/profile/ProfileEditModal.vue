@@ -194,7 +194,7 @@ import { updateUserQuery } from '~/queries/user';
       
       const { url } = await uploadResponse.json();
       formData.value.image = url
-      await sendMutation(updateUserQuery, {id: userStore.user.id, bio: formData.value.bio, profileImage: url || formData.value.image_url})
+      await sendMutation(updateUserQuery, {id: userStore.user.id, bio: formData.value.bio, profileImage: url || ""})
       userStore.user.profile_image = url
       userStore.user.bio = formData.value.bio
     closeModal()
