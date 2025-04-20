@@ -2,7 +2,7 @@
 
 This project is a full-stack application for managing food recipes. It consists of three main components: a Go-based backend service, a Nuxt.js frontend, and a Hasura GraphQL Engine with database configuration and migration.
 
-<a href="(https://drive.google.com/file/d/1B-POPAETXUxu2Q7-3VbxgEWHre55fA3a/view?usp=sharing)" target="_blank">Watch the demo video</a>
+[Watch the demo video](https://drive.google.com/file/d/1B-POPAETXUxu2Q7-3VbxgEWHre55fA3a/view?usp=sharing)
 
 ---
 
